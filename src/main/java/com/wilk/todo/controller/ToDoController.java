@@ -2,7 +2,6 @@ package com.wilk.todo.controller;
 
 
 import com.wilk.todo.dto.ToDoDto;
-import com.wilk.todo.entity.ToDo;
 import com.wilk.todo.service.TodoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

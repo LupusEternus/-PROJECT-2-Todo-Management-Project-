@@ -2,9 +2,16 @@ package com.wilk.todo.service;
 
 import com.wilk.todo.dto.ToDoDto;
 
+import java.util.List;
+
 public interface TodoService {
 
-    ToDoDto addToDO(ToDoDto toDoDto);
+    ToDoDto addToDo(ToDoDto toDoDto);
+    ToDoDto getToDoById(Long id);
+    List<ToDoDto> getAllToDo();
+    ToDoDto updateToDo(ToDoDto toDoDto, Long id);
+    void  deleteTodoById(Long id);
+    ToDoDto completeToDO(Long id);
 
 
 

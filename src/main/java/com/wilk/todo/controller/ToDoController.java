@@ -41,8 +41,12 @@ public class ToDoController {
         todoService.deleteTodoById(id);
         return new ResponseEntity<>("ToDO deleted Successfully",HttpStatus.OK);
     }
-    @PatchMapping("{id}")
+    @PatchMapping("{id}/complete")
     public ResponseEntity<ToDoDto> completeTodo(@PathVariable Long id){
         return new ResponseEntity<>(todoService.completeToDO(id),HttpStatus.OK);
+    }
+    @PatchMapping("{id}/in-complete")
+    public  ResponseEntity<ToDoDto> inCompleteToDo(@PathVariable Long id){
+        return new ResponseEntity<>(todoService.inCompleteToDo(id),HttpStatus.OK);
     }
 }

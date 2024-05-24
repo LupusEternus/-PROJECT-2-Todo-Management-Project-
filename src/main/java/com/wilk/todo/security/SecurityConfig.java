@@ -1,4 +1,4 @@
-package com.wilk.todo.config;
+package com.wilk.todo.security;
 
 
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SpringSecurityConfig {
+public class SecurityConfig {
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
@@ -23,9 +23,10 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf((csrf) -> csrf.disable())
+        httpSecurity
+                .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(HttpMethod.POST,"/api/**").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN");

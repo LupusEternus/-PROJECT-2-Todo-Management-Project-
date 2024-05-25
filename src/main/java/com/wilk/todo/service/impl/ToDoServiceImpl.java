@@ -72,5 +72,9 @@ public class ToDoServiceImpl implements TodoService {
         return modelMapper.map(savedToDO,ToDoDto.class);
     }
 
-
+    @Override
+    public List<ToDoDto> searchToDo(String query) {
+        List<ToDo> toDoList = toDoRepository.searchToDo(query);
+        return toDoList.stream().map(t -> modelMapper.map(t,ToDoDto.class)).toList();
+    }
 }

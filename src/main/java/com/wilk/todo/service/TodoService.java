@@ -13,7 +13,7 @@ public interface TodoService {
     void  deleteTodoById(Long id);
     ToDoDto completeToDO(Long id);
     ToDoDto inCompleteToDo(Long id);
-
+    List<ToDoDto> searchToDo(String query);
 
 
 }

@@ -49,4 +49,9 @@ public class ToDoController {
     public  ResponseEntity<ToDoDto> inCompleteToDo(@PathVariable Long id){
         return new ResponseEntity<>(todoService.inCompleteToDo(id),HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<ToDoDto>> searchToDo(@RequestParam String query){
+        return new ResponseEntity<>(todoService.searchToDo(query),HttpStatus.OK);
+    }
+
 }

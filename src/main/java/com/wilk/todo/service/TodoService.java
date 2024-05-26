@@ -15,5 +15,4 @@ public interface TodoService {
     ToDoDto inCompleteToDo(Long id);
     List<ToDoDto> searchToDo(String query);
 
-
 }

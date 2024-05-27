@@ -32,6 +32,8 @@ public class User {
                 joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id" ),
                 inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user",orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ToDo> toDos = new HashSet<>();
 
 
 }

@@ -31,7 +31,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/api/todos/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.POST, "/api/todos/**").hasAnyRole("ADMIN","USER");
                     authorize.requestMatchers(HttpMethod.DELETE, "/api/todos/**").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.PUT, "/api/todos/**").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.GET, "/api/todos/**").permitAll();

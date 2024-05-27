@@ -20,4 +20,7 @@ public class ToDo {
     @Column(nullable = false)
     private String description;
     private boolean completed;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

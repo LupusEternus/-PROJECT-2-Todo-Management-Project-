@@ -1,4 +1,4 @@
-package com.wilk.todo.controller;
+package com.wilk.todo.controller.rest;
 
 
 import com.wilk.todo.dto.ToDoDto;

@@ -21,7 +21,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -31,11 +31,17 @@ public class SecurityConfig {
         httpSecurity
                 .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(HttpMethod.POST,"/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.DELETE,"/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.PUT,"/api/**").hasRole("ADMIN");
-                    authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll();
-                    authorize.requestMatchers(HttpMethod.PATCH,"/api/**").hasAnyRole("ADMIN", "USER");
+                    authorize.requestMatchers(HttpMethod.POST, "/api/todos/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/api/todos/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/api/todos/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.GET, "/api/todos/**").permitAll();
+                    authorize.requestMatchers(HttpMethod.PATCH, "/api/todos/**").hasAnyRole("ADMIN", "USER");
+
+                    authorize.requestMatchers(HttpMethod.POST, "api/users").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "api/users/**").hasAnyRole("ADMIN", "USER");
+                    authorize.requestMatchers(HttpMethod.DELETE, "api/users/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "api/users/**").hasAnyRole("ADMIN", "USER");
+
                     authorize.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults());
@@ -47,24 +53,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-//
-//        UserDetails tomek = User.builder()
-//                .username("Tomek")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder().encode("admin"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(tomek,admin);
-//    }
-
 
 }

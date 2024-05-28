@@ -3,12 +3,15 @@ package com.wilk.todo.service.impl;
 import com.wilk.todo.dto.UserCreationDto;
 import com.wilk.todo.dto.UserResponseDto;
 import com.wilk.todo.entity.User;
-import com.wilk.todo.exceptions.ResourceNotFoundException;
+import com.wilk.todo.exceptions.EmailAlreadyTakenException;
+import com.wilk.todo.exceptions.UserNotFoundException;
+import com.wilk.todo.exceptions.UsernameAlreadyTakenException;
 import com.wilk.todo.repository.RoleRepository;
 import com.wilk.todo.repository.UserRepository;
 import com.wilk.todo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +27,14 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     private ModelMapper modelMapper;
 
-    //TODO - custom exceptions for register
+
     @Override
     public UserResponseDto register(UserCreationDto userCreationDto) {
         if (userRepository.existsByEmail(userCreationDto.getEmail())) {
-            throw new RuntimeException("Sorry email already taken");
+            throw new EmailAlreadyTakenException("Email : " + userCreationDto.getEmail() + " already taken");
         }
         if (userRepository.existsByUsername(userCreationDto.getUsername())) {
-            throw new RuntimeException("Sorry username already taken");
+            throw new UsernameAlreadyTakenException("Username : "+ userCreationDto.getUsername() + " already taken");
         }
         User user = new User();
         user.setName(userCreationDto.getName());
@@ -43,23 +46,23 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(savedUser,UserResponseDto.class);
 
     }
-    //TODO custom exception for user not found
+
     @Override
     public UserResponseDto getUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " +id));
 
         return modelMapper.map(user,UserResponseDto.class);
     }
 
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " +id));
         userRepository.deleteById(user.getId());
     }
 
     @Override
     public UserResponseDto updatedUser(UserResponseDto userResponseDto, Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " +id));
         user.setName(userResponseDto.getName());
         userRepository.save(user);
         return modelMapper.map(user,UserResponseDto.class);
